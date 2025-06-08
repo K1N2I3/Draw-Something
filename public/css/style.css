@@ -1973,10 +1973,9 @@ input[type="text"]:focus {
 @supports (-webkit-touch-callout: none) {
     @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
         html, body {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
+            /* 移除position: fixed，允许正常滚动 */
+            width: 100%;
+            min-height: 100vh;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: none;
             -webkit-overscroll-behavior: none;
@@ -1986,16 +1985,19 @@ input[type="text"]:focus {
         }
         
         .container {
-            height: 100vh;
-            overflow-y: auto;
+            /* 允许正常滚动，只限制过度滚动 */
+            width: 100%;
+            min-height: 100vh;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
             background: transparent !important;
         }
         
         .home-container {
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            /* 移除overflow: hidden，允许内容滚动 */
             background: transparent !important;
         }
     }
@@ -2009,8 +2011,13 @@ input[type="text"]:focus {
         }
         
         .game-content {
-            height: calc(100vh - 120px);
-            overflow: hidden;
+            /* 允许游戏内容正常滚动 */
+            min-height: calc(100vh - 120px);
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            -webkit-overscroll-behavior: contain;
             background: transparent !important;
         }
         
@@ -2022,6 +2029,12 @@ input[type="text"]:focus {
         /* 确保所有页面和容器都有透明背景，让body的背景显示 */
         .page, .game-card, .main-content {
             background: transparent !important;
+        }
+        
+        /* 确保房间页面可以滚动到底部 */
+        .players-section, .room-actions {
+            position: relative;
+            z-index: 1;
         }
     }
 } 
