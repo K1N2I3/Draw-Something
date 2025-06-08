@@ -1938,6 +1938,18 @@ input[type="text"]:focus {
     }
 }
 
+/* 确保所有移动设备都有背景颜色 */
+@media screen and (max-width: 1024px) {
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
+    }
+    
+    html {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+}
+
 /* iPad特定 - 防止过度滚动（只在iOS Safari上生效） */
 @supports (-webkit-touch-callout: none) {
     @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -1949,6 +1961,8 @@ input[type="text"]:focus {
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: none;
             -webkit-overscroll-behavior: none;
+            /* 确保背景颜色在iPad上也显示 */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         }
         
         .container {
