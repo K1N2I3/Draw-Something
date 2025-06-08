@@ -21,20 +21,36 @@
     }
 }
 
+html {
+    height: 100%;
+    overflow: hidden; /* 防止页面整体滚动 */
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    height: 100vh; /* 使用固定高度而不是min-height */
     color: #333;
     -webkit-text-size-adjust: 100%; /* 防止iOS Safari自动调整字体大小 */
     -webkit-tap-highlight-color: transparent; /* 移除点击高亮 */
     overscroll-behavior: none; /* 防止过度滚动 */
+    -webkit-overscroll-behavior: none; /* Safari特定 */
+    overflow: hidden; /* 防止页面滚动 */
+    position: fixed; /* 固定定位防止滚动 */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto; /* 允许垂直滚动但限制在容器内 */
+    overflow-x: hidden; /* 防止水平滚动 */
+    -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+    overscroll-behavior: contain; /* 限制滚动在容器内 */
 }
 
 /* 页面切换 */
@@ -55,7 +71,7 @@ body {
 /* 主页容器 */
 .home-container {
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1935,5 +1951,89 @@ input[type="text"]:focus {
         background: #000;
         color: #fff;
         border: 2px solid #fff;
+    }
+}
+
+/* iPad和移动设备专用 - 防止过度滚动 */
+@media only screen and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    html, body {
+        position: fixed;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+        height: 100vh;
+        width: 100vw;
+        touch-action: manipulation; /* 防止双击缩放 */
+    }
+    
+    .container {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        -webkit-overscroll-behavior: contain;
+    }
+    
+    /* 防止iOS Safari的弹性滚动 */
+    .page {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: none;
+        -webkit-overscroll-behavior: none;
+    }
+    
+    /* 防止聊天区域导致页面滚动 */
+    .chat-messages {
+        overscroll-behavior: contain;
+        -webkit-overscroll-behavior: contain;
+        max-height: calc(100vh - 200px); /* 限制最大高度 */
+    }
+}
+
+/* 专门针对iPad的样式 */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    body {
+        -webkit-text-size-adjust: none;
+        touch-action: manipulation; /* 防止双击缩放和其他手势 */
+        -webkit-touch-callout: none; /* 禁用长按菜单 */
+        -webkit-user-select: none; /* 禁用文本选择 */
+        user-select: none;
+    }
+    
+    /* 确保游戏内容不会超出屏幕 */
+    .game-content {
+        height: calc(100vh - 120px); /* 减去头部高度 */
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .canvas-area, .chat-area {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .chat-messages {
+        height: calc(100% - 60px); /* 减去输入框高度 */
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        -webkit-overscroll-behavior: contain;
+    }
+    
+    /* 防止主页过度滚动 */
+    .home-container {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    /* 防止所有输入元素导致页面缩放 */
+    input[type="text"] {
+        font-size: 16px; /* 防止iOS自动缩放 */
+        -webkit-appearance: none;
     }
 } 
