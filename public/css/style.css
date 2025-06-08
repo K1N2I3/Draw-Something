@@ -1950,10 +1950,29 @@ input[type="text"]:focus {
     }
 }
 
+/* 专门针对所有iPad设备（包括iPad Pro） */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1366px) 
+  and (-webkit-min-device-pixel-ratio: 1) {
+    html, body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
+    }
+}
+
+/* iOS设备专用背景设置 */
+@supports (-webkit-touch-callout: none) {
+    html, body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed !important;
+    }
+}
+
 /* iPad特定 - 防止过度滚动（只在iOS Safari上生效） */
 @supports (-webkit-touch-callout: none) {
-    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-        body {
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+        html, body {
             position: fixed;
             width: 100vw;
             height: 100vh;
@@ -1961,8 +1980,9 @@ input[type="text"]:focus {
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: none;
             -webkit-overscroll-behavior: none;
-            /* 确保背景颜色在iPad上也显示 */
+            /* 强制背景颜色在所有iPad设备上显示 */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            background-attachment: fixed !important;
         }
         
         .container {
@@ -1970,18 +1990,20 @@ input[type="text"]:focus {
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            background: transparent !important;
         }
         
         .home-container {
             height: 100vh;
             overflow: hidden;
+            background: transparent !important;
         }
     }
 }
 
 /* iPad额外优化 */
 @supports (-webkit-touch-callout: none) {
-    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
         input[type="text"] {
             font-size: 16px; /* 防止iOS自动缩放 */
         }
@@ -1989,11 +2011,17 @@ input[type="text"]:focus {
         .game-content {
             height: calc(100vh - 120px);
             overflow: hidden;
+            background: transparent !important;
         }
         
         .chat-messages {
             overscroll-behavior: contain;
             -webkit-overscroll-behavior: contain;
+        }
+        
+        /* 确保所有页面和容器都有透明背景，让body的背景显示 */
+        .page, .game-card, .main-content {
+            background: transparent !important;
         }
     }
 } 
